@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mageplus_project_listing.mageplus_project_listing_data_source</item>
+            <item name="deps" xsi:type="string">mageplus_project_listing.mageplus_project_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="*/*/new"/>
+                <class>primary</class>
+                <label translate="true">Add New</label>
+            </button>
+        </buttons>
+        <spinner>mageplus_project_listing_columns</spinner>
+        <deps>
+            <dep>mageplus_project_listing.mageplus_project_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="mageplus_project_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">project_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Mageplus_Project::project_management</aclResource>
+        <dataProvider class="Mageplus\Project\Ui\DataProvider\Listing\Project" name="mageplus_project_listing_data_source">
+            <settings>
+                <requestFieldName>project_id</requestFieldName>
+                <primaryFieldName>project_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+        <exportButton name="export_button"/>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="project/project/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+            <action name="disable">
+                <settings>
+                    <url path="project/project/massDisable"/>
+                    <type>disable</type>
+                    <label translate="true">Disable</label>
+                </settings>
+            </action>
+            <action name="enable">
+                <settings>
+                    <url path="project/project/massEnable"/>
+                    <type>enable</type>
+                    <label translate="true">Enable</label>
+                </settings>
+            </action>
+            <action name="export">
+                <settings>
+                    <url path="project/project/massExport"/>
+                    <type>export</type>
+                    <label translate="true">Export</label>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="mageplus_project_listing_columns">
+        <selectionsColumn name="ids" sortOrder="0">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">project_id</item>
+                    <item name="preserveSelectionsOnFilter" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="project_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="project_name">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Project Name</label>
+            </settings>
+        </column>
+        <column name="completion_year">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Completion Year</label>
+            </settings>
+        </column>
+        <column name="status" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <options class="Mageplus\Project\Model\Source\Project\Status"/>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <column name="country_id" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <options class="Mageplus\Project\Model\Source\Project\Country"/>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Country</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="region">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">State/Province</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <column name="city">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">City</label>
+            </settings>
+        </column>
+        <column name="street">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Street Address</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <column name="position">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Position</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Mageplus\Project\Ui\Component\Project\Listing\Column\Actions">
+            <settings>
+                <indexField>project_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

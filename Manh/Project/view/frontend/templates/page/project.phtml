@@ -1,0 +1,169 @@
+<?php
+
+use Mageplus\Project\Block\Project;
+use Magento\Framework\Escaper;
+
+/** @var Project $block */
+/** @var Escaper $escaper */
+?>
+<?php if ($block->isEnableProject()): ?>
+<?php
+    $projectResetUrl = $block->getUrl($block->getUrlProjectPage());
+    if (!empty($projectResetUrl)) {
+        $projectResetUrl = trim($projectResetUrl, '/' );
+    }
+?>
+<div class="project-main-container" id="project-main-container">
+    <div class="project-list-container" id="project-list-container">
+        <div class="project-search-container">
+            <div class="button-sidebar">
+                <span class="mgp-icon-filter"></span>
+                <span class="label">Filter</span>
+            </div>
+            <div id="group-filter">
+                <button class="close-filter"><span class="mgp-icon-times"></span></button>
+                <div class="project-reset-filter">
+                    <button type="button"
+                            class="project-reset -hidden"
+                            aria-label="<?= $escaper->escapeHtmlAttr(__("Reset Filters")) ?>"
+                            data-mpproject-js="reset">Reset Filters
+                    </button>
+                </div>
+                <div class="project-block -current project-search">
+                    <div class="project-wrapper">
+                        <input type="text" value="" class="project-text"
+                               name="project" placeholder="<?= $escaper->escapeHtmlAttr(__('Search')); ?>"
+                               data-mpproject-js="project"
+                               autocomplete="off">
+                        <button type="button"
+                                class="project-search"
+                                aria-label="<?= $escaper->escapeHtmlAttr(__("Search Project")) ?>"
+                                data-mpproject-js="search">
+                            <span class="mgp-icon-search"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="project-filter filter-by-region">
+                    <div class="project-filter-title title-control active">
+                        <?= $escaper->escapeHtmlAttr(__("Filter By Region")) ?>
+                    </div>
+                    <div class="project-filter-content content-control region-filter">
+                        <?php $regions = $block->getRegions(); ?>
+                        <?php if (!empty($regions)): ?>
+                            <?php foreach ($regions as $region): ?>
+                                <a href="<?= $region['url'] ?? '' ?>">
+                                    <div class="filter-item">
+                                        <?= $escaper->escapeHtml($region['region_name'] ?? '') ?>
+                                    </div>
+                                </a>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="project-filter filter-by-product-category">
+                    <div class="project-filter-title title-control active">
+                        <?= $escaper->escapeHtmlAttr(__("Filter by Product")) ?>
+                    </div>
+                    <div class="project-filter-content content-control category-filter">
+                        <?php foreach ($block->getProductSkus() as $skuLabel): ?>
+                                <a href="<?= $block->getUrl('mpproject/index/filter', ['project_ids' => base64_encode($skuLabel['project_ids'])]) ?>">
+                                    <div class="filter-item">
+                                        <?= $escaper->escapeHtml($skuLabel['sku_label'] ?? '') ?>
+                                    </div>
+                                </a>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <div class="project-block -projectlist project-list">
+                <?= $block->getProjectBlockHtml(); ?>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        require([
+            'jquery',
+        ], function ($) {
+            $(document).ready(function () {
+                $('.project-search').on('click', function () {
+                    var url = new URL('<?= $block->getUrl('mpproject/index/filter') ?>');
+                    var text = $('.project-text').val();
+                    if (text !== '') {
+                        url.searchParams.set('text', text);
+                        window.location.href = url.href;
+                    }
+                });
+
+                $('.project-reset').on('click', function () {
+                    var url = new URL('<?= $projectResetUrl ?>');
+                    window.location.href = url.href;
+                });
+
+                // filter sidebar
+                $(".title-control").click(function(){
+                    if ($(this).hasClass('active')) {
+                        $(this).removeClass('active');
+                    }
+                    else {
+                        $(this).addClass('active');
+                    }
+                    $(this).next('.content-control').slideToggle("slow");
+                });
+
+                const btnControl = '.button-sidebar, .close-filter';
+                $(btnControl).click(function(){
+                    if ($(btnControl).hasClass('active')) {
+                        $(btnControl).removeClass('active');
+                        $('#group-filter').removeClass('active');
+                    }
+                    else {
+                        $(btnControl).addClass('active');
+                        $('#group-filter').addClass('active');
+                    }
+                });
+            })
+        })
+    </script>
+    <script>
+        require([
+            'jquery',
+            'Mageplus_Project/js/main',
+            'domReady!',
+            'mage/loader',
+        ], function ($) {
+            var projectId =  '#project-main-container',
+                $body = $('body'),
+                isLoaderAjaxInitiated = !!$.data($body.get(0), 'mage-loader'),
+                isLoaderInitiated = isLoaderAjaxInitiated,
+                initFunction,
+                tryToInit = function () {
+                    if (isLoaderInitiated && isLoaderAjaxInitiated) {
+                        initFunction();
+
+                        return true;
+                    }
+
+                    return false;
+                };
+
+            initFunction = function () {
+                $(projectId).mpProjects({
+                    jsonProjects: <?= /* @noEscape */ $block->getJsonProjects() ?>,
+                    projectContainerId: "project-main-container",
+                    limitDefault: "<?= $block->getDefaultPerPageValue() ?>",
+                    url: "<?= $block->getPagerUrl() ?>",
+                });
+            };
+
+            tryToInit();
+            $body.on('loadercreate', function () {
+                isLoaderInitiated = true;
+                tryToInit();
+            }).on('loaderajaxcreate', function () {
+                isLoaderAjaxInitiated = true;
+                tryToInit();
+            });
+        })
+    </script>
+<?php endif; ?>

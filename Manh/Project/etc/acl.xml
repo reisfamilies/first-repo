@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Mageplus_Project::config" title="Mageplus Project Page" sortOrder="192012" />
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Mageplus_Base::menu">
+                    <resource id="Mageplus_Project::project_management" title="Mageplus Project Management"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

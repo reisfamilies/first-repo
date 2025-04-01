@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mageplus_upload_images_form.mageplus_upload_images_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Project</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <namespace>mageplus_upload_images_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>mageplus_upload_images_form.mageplus_upload_images_form_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="save">
+                <label translate="true">Save</label>
+                <class>save primary</class>
+            </button>
+        </buttons>
+    </settings>
+    <dataSource name="mageplus_upload_images_form_data_source" component="Magento_Ui/js/form/provider">
+        <settings>
+            <submitUrl path="project/import/save"/>
+        </settings>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="mageplus_upload_images_form_data_source">
+            <settings>
+                <requestFieldName>tag_id</requestFieldName>
+                <primaryFieldName>tag_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="image_gallery">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Image Gallery</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">32</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <field name="gallery">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="source" xsi:type="string">gallery</item>
+                    <item name="label" xsi:type="string" translate="true">Project Images</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="previewTmpl" xsi:type="string">Mageplus_Project/form/element/gallery-image-import-preview</item>
+                    <item name="component" xsi:type="string">Mageplus_Project/js/form/file-uploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="isMultipleFiles" xsi:type="boolean">true</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="string">project/import/upload</item>
+                    </item>
+                    <item name="dataScope" xsi:type="string">gallery_image</item>
+                    <item name="notice" xsi:type="string" translate="true">
+                        Allowed file types : jpg jpeg gif png. Gif can have only one frame. Maximum is 50 files one times and less than 2MB
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="base_img">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">hidden</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

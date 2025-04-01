@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="mageplus_project" resource="default" engine="innodb" comment="Project Table">
+        <column xsi:type="int" name="project_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Project ID"/>
+        <column xsi:type="varchar" name="project_name" nullable="true" length="255" comment="Name"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Status"/>
+        <column xsi:type="varchar" name="street" nullable="true" length="40" comment="Street"/>
+        <column xsi:type="varchar" name="city" nullable="true" length="40" comment="City"/>
+        <column xsi:type="varchar" name="country_id" nullable="true" length="2" comment="Country ID"/>
+        <column xsi:type="varchar" name="region" nullable="true" length="40" comment="Region"/>
+        <column xsi:type="int" name="region_id" padding="10" unsigned="true" nullable="true" identity="false"
+                comment="Region Id"/>
+        <column xsi:type="text" name="short_description" nullable="true" comment="Short Description"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Project Description"/>
+        <column xsi:type="text" name="stores" nullable="false" comment="Stores Ids"/>
+        <column xsi:type="varchar" name="completion_year" nullable="true" length="255" comment="Completion Year"/>
+        <column xsi:type="text" name="addition_sku" nullable="true" comment="Addition SKU"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="URL Key"/>
+        <column xsi:type="varchar" name="redirect_url" nullable="true" length="255" comment="Redirect Url"/>
+        <column xsi:type="int" name="position" padding="10" default="100" unsigned="true" nullable="true" identity="false"
+                comment="Position"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="project_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGEPLUS_PROJECT_COUNTRY_ID_DIR_COUNTRY_COUNTRY_ID"
+                    table="mageplus_project" column="country_id" referenceTable="directory_country"
+                    referenceColumn="country_id" onDelete="SET NULL"/>
+        <constraint xsi:type="foreign" referenceId="MAGEPLUS_PROJECT_REGION_ID_DIR_COUNTRY_REGION_ID"
+                    table="mageplus_project" column="region_id" referenceTable="directory_country_region"
+                    referenceColumn="region_id" onDelete="SET NULL"/>
+
+    </table>
+    <table name="mageplus_project_gallery" resource="default" engine="innodb"
+           comment="Project Gallery Table">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Id"/>
+        <column xsi:type="int" name="project_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Project Id"/>
+        <column xsi:type="text" name="image_name" nullable="false" comment="Image Name"/>
+        <column xsi:type="boolean" name="is_base" nullable="false" comment="Base Image Flag"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGEPLUS_PROJECT_GALLERY_MAGEPLUS_PROJECT_PROJECT_ID"
+                    table="mageplus_project_gallery" column="project_id" referenceTable="mageplus_project"
+                    referenceColumn="project_id" onDelete="CASCADE"/>
+    </table>
+    <table name="mageplus_project_product" resource="default" engine="innodb" comment="Project Product Table">
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Product Id"/>
+        <column xsi:type="int" name="project_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Project Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="product_id"/>
+            <column name="project_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGEPLUS_PROJECT_PRODUCT_PROJECT_ID"
+                    table="mageplus_project_product" column="project_id"
+                    referenceTable="mageplus_project" referenceColumn="project_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign"
+                    referenceId="MAGEPLUS_PROJECT_PRODUCT_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID"
+                    table="mageplus_project_product" column="product_id" referenceTable="catalog_product_entity"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="MAGEPLUS_PROJECT_PARTNER_TAG_ENTITY_ID_TAG_ID">
+            <column name="product_id"/>
+            <column name="project_id"/>
+        </constraint>
+        <index referenceId="MAGEPLUS_PROJECT_PROJECT_ID" indexType="btree">
+            <column name="project_id"/>
+        </index>
+        <index referenceId="MAGEPLUS_PROJECT_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+    </table>
+    <table name="mageplus_tag" resource="default" engine="innodb" comment="Tag Table">
+        <column xsi:type="int" name="tag_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Tag ID"/>
+        <column xsi:type="varchar" name="tag_name" nullable="true" length="255" comment="Tag Name"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Status"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="Tag URL Key"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="tag_id"/>
+        </constraint>
+    </table>
+    <table name="mageplus_project_tag" resource="default" engine="innodb" comment="Project Tag Table">
+        <column xsi:type="int" name="tag_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Tag ID"/>
+        <column xsi:type="int" name="project_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="Project ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="tag_id"/>
+            <column name="project_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="MAGEPLUS_PROJECT_TAG_TAG_ID_MAGEPLUS_TAG_TAG_ID"
+                    table="mageplus_project_tag"
+                    column="tag_id"
+                    referenceTable="mageplus_tag"
+                    referenceColumn="tag_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MAGEPLUS_PROJECT_TAG_PROJECT_ID_MAGEPLUS_PROJECT_PROJECT_ID"
+                    table="mageplus_project_tag"
+                    column="project_id"
+                    referenceTable="mageplus_project"
+                    referenceColumn="project_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="MAGEPLUS_PROJECT_PARTNER_TAG_ENTITY_ID_TAG_ID">
+            <column name="project_id"/>
+            <column name="tag_id"/>
+        </constraint>
+        <index referenceId="MAGEPLUS_PROJECT_TAG_PROJECT_ID" indexType="btree">
+            <column name="project_id"/>
+        </index>
+        <index referenceId="MAGEPLUS_PROJECT_TAG_TAG_ID" indexType="btree">
+            <column name="tag_id"/>
+        </index>
+    </table>
+</schema>

@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mageplus_tag_form.mageplus_tag_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Tag Form</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <namespace>mageplus_tag_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>mageplus_tag_form.mageplus_tag_form_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="save">
+                <label translate="true">Save</label>
+                <class>save primary</class>
+            </button>
+            <button name="save_and_continue" class="Mageplus\Project\Block\Adminhtml\Tag\Form\Buttons\SaveAndContinue"/>
+            <button name="back">
+                <url path="*/*/" />
+                <label translate="true">Back</label>
+                <class>back</class>
+            </button>
+            <button name="delete" class="Mageplus\Project\Block\Adminhtml\Tag\Form\Buttons\Delete"/>
+    </buttons>
+    </settings>
+    <dataSource name="mageplus_tag_form_data_source" component="Magento_Ui/js/form/provider">
+        <settings>
+            <submitUrl path="project/tag/save"/>
+        </settings>
+        <dataProvider class="Mageplus\Project\Ui\DataProvider\Tag\Form\DataProvider"
+                      name="mageplus_tag_form_data_source">
+            <settings>
+                <requestFieldName>tag_id</requestFieldName>
+                <primaryFieldName>tag_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general" sortOrder="10">
+        <settings>
+            <label translate="true">General</label>
+        </settings>
+        <field name="tag_id" sortOrder="10" formElement="hidden">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">tag_id</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Tag ID</label>
+                <dataScope>tag_id</dataScope>
+            </settings>
+        </field>
+        <field name="tag_name" sortOrder="10" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">tag_name</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Tag Name</label>
+                <dataScope>tag_name</dataScope>
+            </settings>
+        </field>
+        <field name="status" sortOrder="20" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mageplus\Project\Model\Source\Project\Status</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">status</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+                <dataScope>status</dataScope>
+            </settings>
+        </field>
+    </fieldset>
+</form>

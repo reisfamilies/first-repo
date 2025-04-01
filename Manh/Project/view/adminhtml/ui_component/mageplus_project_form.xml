@@ -1,0 +1,717 @@
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">mageplus_project_form.mageplus_project_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Project</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <namespace>mageplus_project_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>mageplus_project_form.mageplus_project_form_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="save">
+                <label translate="true">Save</label>
+                <class>save primary</class>
+            </button>
+            <button name="save_and_continue" class="Mageplus\Project\Block\Adminhtml\Form\Buttons\SaveAndContinue"/>
+            <button name="back">
+                <url path="*/*/" />
+                <label translate="true">Back</label>
+                <class>back</class>
+            </button>
+            <button name="delete" class="Mageplus\Project\Block\Adminhtml\Form\Buttons\Delete"/>
+        </buttons>
+    </settings>
+    <dataSource name="mageplus_project_form_data_source" component="Magento_Ui/js/form/provider">
+        <settings>
+            <submitUrl path="project/project/save"/>
+        </settings>
+        <dataProvider class="Mageplus\Project\Ui\DataProvider\Project\Form\DataProvider"
+                      name="mageplus_project_form_data_source">
+            <settings>
+                <requestFieldName>project_id</requestFieldName>
+                <primaryFieldName>project_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general" sortOrder="10">
+        <settings>
+            <collapsible>true</collapsible>
+            <label translate="true">General</label>
+            <opened>true</opened>
+        </settings>
+        <field name="project_id" sortOrder="10" formElement="hidden">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">project_id</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Project ID</label>
+                <dataScope>project_id</dataScope>
+            </settings>
+        </field>
+        <field name="project_name" sortOrder="20" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">project_name</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Project Name</label>
+                <dataScope>project_name</dataScope>
+            </settings>
+        </field>
+        <field name="completion_year" sortOrder="25" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">completion_year</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Completion Year</label>
+                <dataScope>completion_year</dataScope>
+            </settings>
+        </field>
+        <field name="status" sortOrder="30" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mageplus\Project\Model\Source\Project\Status</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">status</item>
+                </item>
+            </argument>
+            <settings>
+<!--                <options class="Mageplus\Project\Model\Source\Project\Status"/>-->
+                <dataType>number</dataType>
+                <label translate="true">Status</label>
+                <dataScope>status</dataScope>
+            </settings>
+        </field>
+        <field name="position" sortOrder="35" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">position</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Position</label>
+                <dataScope>position</dataScope>
+            </settings>
+        </field>
+        <field name="street" sortOrder="40" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">street</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Street</label>
+                <dataScope>street</dataScope>
+            </settings>
+        </field>
+        <field name="city" sortOrder="50" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">city</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">City</label>
+                <dataScope>city</dataScope>
+            </settings>
+        </field>
+        <field name="country" sortOrder="60" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mageplus\Project\Model\Source\Project\Country</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">country</item>
+                </item>
+            </argument>
+            <settings>
+<!--                <options class="Mageplus\Project\Model\Source\Project\Country"/>-->
+                <dataType>text</dataType>
+                <label translate="true">Country</label>
+                <dataScope>country_id</dataScope>
+            </settings>
+        </field>
+        <field name="region" sortOrder="70" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">region</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <dataScope>region</dataScope>
+            </settings>
+        </field>
+        <field name="region_id">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Customer\Model\ResourceModel\Address\Attribute\Source\Region</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">State/Province</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="customEntry" xsi:type="string">region</item>
+                    <item name="filterBy" xsi:type="array">
+                        <item name="target" xsi:type="string">${ $.provider }:${ $.parentScope }.country_id</item>
+                        <item name="field" xsi:type="string">country_id</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="short_description" sortOrder="90" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">short_description</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Short Description</label>
+                <dataScope>short_description</dataScope>
+            </settings>
+        </field>
+        <field name="description" sortOrder="100" formElement="wysiwyg">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">description</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Description</label>
+                <dataScope>description</dataScope>
+            </settings>
+        </field>
+        <field name="stores" sortOrder="110" formElement="multiselect">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Mageplus\Project\Model\Source\Project\StoreOptions</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">stores</item>
+                </item>
+            </argument>
+            <settings>
+<!--                <options class="Mageplus\Project\Model\Source\Project\StoreOptions"/>-->
+                <dataType>multiselect</dataType>
+                <label translate="true">Store View</label>
+                <dataScope>stores</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="url_key" sortOrder="120" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">url_key</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Url Key</label>
+                <dataScope>url_key</dataScope>
+            </settings>
+        </field>
+        <field name="redirect_url" sortOrder="130" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">redirect_url</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Redirect Url</label>
+                <dataScope>redirect_url</dataScope>
+            </settings>
+        </field>
+    </fieldset>
+<!--    <fieldset name="image_gallery">-->
+<!--        <settings>-->
+<!--            <collapsible>true</collapsible>-->
+<!--            <label translate="true">Image Gallery</label>-->
+<!--            <opened>true</opened>-->
+<!--        </settings>-->
+<!--        <field name="gallery" formElement="fileUploader" component="Mageplus_Project/js/form/file-uploader">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="dataScope" xsi:type="string">gallery_image</item>-->
+<!--                    <item name="source" xsi:type="string">gallery_image</item>-->
+<!--                    <item name="isMultipleFiles" xsi:type="boolean">true</item>-->
+<!--                    <item name="uploaderConfig" xsi:type="array">-->
+<!--                        <item name="url" xsi:type="url" path="project/file/upload"/>-->
+<!--                    </item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--            <settings>-->
+<!--                <elementTmpl>ui/form/element/uploader/uploader</elementTmpl>-->
+<!--                <dataType>string</dataType>-->
+<!--                <label translate="true">Project Images</label>-->
+<!--                <visible>true</visible>-->
+<!--                <required>true</required>-->
+<!--            </settings>-->
+<!--            <formElements>-->
+<!--                <imageUploader>-->
+<!--                    <settings>-->
+<!--                        <required>false</required>-->
+<!--&lt;!&ndash;                        <uploaderConfig>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <param xsi:type="string" name="url" path="project/file/upload"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </uploaderConfig>&ndash;&gt;-->
+<!--                        <previewTmpl>Mageplus_Project/form/element/gallery-image-preview</previewTmpl>-->
+<!--                        <openDialogTitle>Media Gallery</openDialogTitle>-->
+<!--                        <allowedExtensions>jpg jpeg gif png</allowedExtensions>-->
+<!--                        <maxFileSize>4194304</maxFileSize>-->
+<!--                    </settings>-->
+<!--                </imageUploader>-->
+<!--            </formElements>-->
+<!--        </field>-->
+<!--        <field name="base_img" formElement="hidden">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="source" xsi:type="string">base_img</item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--            <settings>-->
+<!--                <dataType>text</dataType>-->
+<!--                <dataScope>base_img</dataScope>-->
+<!--            </settings>-->
+<!--        </field>-->
+<!--    </fieldset>-->
+    <fieldset name="image_gallery">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Image Gallery</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="sortOrder" xsi:type="number">32</item>
+                <item name="initializeFieldsetDataByDefault" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <field name="gallery">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="source" xsi:type="string">gallery</item>
+                    <item name="label" xsi:type="string" translate="true">Project Images</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="previewTmpl" xsi:type="string">Mageplus_Project/form/element/gallery-image-preview</item>
+                    <item name="component" xsi:type="string">Mageplus_Project/js/form/file-uploader</item>
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
+                    <item name="isMultipleFiles" xsi:type="boolean">true</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="string">project/file/upload</item>
+                    </item>
+                    <item name="dataScope" xsi:type="string">gallery_image</item>
+                    <item name="notice" xsi:type="string" translate="true">
+                        Allowed file types : jpg jpeg gif png. Gif can have only one frame
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="base_img">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">hidden</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="tag_link">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Tag</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <container name="button_set" template="ui/form/components/complex">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="formElement" xsi:type="string">container</item>
+                    <item name="componentType" xsi:type="string">container</item>
+                    <item name="label" xsi:type="string" />
+                </item>
+            </argument>
+            <container name="parent_buttons">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="boolean">false</item>
+                        <item name="formElement" xsi:type="string">container</item>
+                        <item name="componentType" xsi:type="string">container</item>
+                        <item name="component" xsi:type="string">Magento_Ui/js/form/components/button</item>
+                        <item name="title" xsi:type="string" translate="true">Add Tag</item>
+                        <item name="actions" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="targetName" xsi:type="string">mageplus_project_form.mageplus_project_form.tag_link.parent_tag_modal</item>
+                                <item name="actionName" xsi:type="string">toggleModal</item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="targetName" xsi:type="string">mageplus_project_form.mageplus_project_form.tag_link.parent_tag_modal.parent_tag_grid</item>
+                                <item name="actionName" xsi:type="string">render</item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </container>
+        </container>
+        <container name="parent_tag_modal">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="componentType" xsi:type="string">modal</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/modal/modal-component</item>
+                    <item name="options" xsi:type="array">
+                        <item name="type" xsi:type="string">slide</item>
+                        <item name="title" xsi:type="string" translate="true">Choose Tag</item>
+                        <item name="buttons" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Cancel</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Choose Tag</item>
+                                <item name="class" xsi:type="string">action-primary</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="targetName" xsi:type="string">index = parent_tag_grid</item>
+                                        <item name="actionName" xsi:type="string">save</item>
+                                    </item>
+                                    <item name="1" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+            <insertListing name="parent_tag_grid">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <!--Avoid admin__scope-old cssclass assign -->
+                        <item name="cssclass" xsi:type="string">user-grid-insert-listing</item>
+                        <item name="dataScope" xsi:type="string">project_tag_container</item>
+                        <item name="autoRender" xsi:type="boolean">false</item>
+                        <item name="selectionsProvider" xsi:type="string">mageplus_project_tag_listing.mageplus_project_tag_listing.tag_listing_columns.ids</item>
+                        <item name="externalProvider" xsi:type="string">mageplus_project_tag_listing.mageplus_project_tag_listing_data_source</item>
+                        <item name="ns" xsi:type="string">mageplus_project_tag_listing</item>
+                        <item name="realTimeLink" xsi:type="boolean">true</item>
+                        <item name="behaviourType" xsi:type="string">edit</item>
+                        <item name="dataLinks" xsi:type="array">
+                            <item name="imports" xsi:type="boolean">false</item>
+                            <item name="exports" xsi:type="boolean">true</item>
+                        </item>
+                        <item name="externalFilterMode" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+            </insertListing>
+        </container>
+        <container name="project_tag_container">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="additionalClasses" xsi:type="string">admin__field-wide</item>
+                    <item name="componentType" xsi:type="string">dynamicRows</item>
+                    <item name="component" xsi:type="string">Mageplus_Project/js/dynamic-rows/dynamic-rows-grid</item>
+                    <item name="template" xsi:type="string">ui/dynamic-rows/templates/grid</item>
+                    <item name="recordTemplate" xsi:type="string">record</item>
+                    <item name="addButton" xsi:type="boolean">false</item>
+                    <item name="columnsHeader" xsi:type="boolean">false</item>
+                    <item name="columnsHeaderAfterRender" xsi:type="boolean">true</item>
+                    <item name="renderDefaultRecord" xsi:type="boolean">false</item>
+                    <item name="deleteButtonLabel" xsi:type="string" translate="true">Remove</item>
+                    <item name="dataScope" xsi:type="string">tag_ids</item>
+                    <item name="identificationProperty" xsi:type="string">tag_id</item>
+                    <item name="identificationDRProperty" xsi:type="string">tag_id</item>
+                    <item name="dataProvider" xsi:type="string">data.project_tag_container</item>
+                    <item name="positionProvider" xsi:type="string">position2</item>
+                    <item name="map" xsi:type="array">
+                        <item name="tag_id" xsi:type="string">tag_id</item>
+                        <item name="tag_name" xsi:type="string">tag_name</item>
+                        <item name="status" xsi:type="string">status</item>
+                    </item>
+                    <item name="links" xsi:type="array">
+                        <item name="insertData" xsi:type="string">${ $.provider }:${ $.dataProvider }</item>
+                    </item>
+                    <item name="dndConfig" xsi:type="array">
+                        <item name="enabled" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+            <container name="record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/record</item>
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="positionProvider" xsi:type="string">position2</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+                <field name="tag_id">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="dataScope" xsi:type="string">tag_id</item>
+                            <item name="label" xsi:type="string" translate="true">ID</item>
+                            <item name="sortOrder" xsi:type="string">10</item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="tag_name">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="dataScope" xsi:type="string">tag_name</item>
+                            <item name="label" xsi:type="string" translate="true">Tag Name</item>
+                            <item name="sortOrder" xsi:type="string">20</item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="status">
+                    <argument name="data" xsi:type="array">
+                        <item name="options" xsi:type="object">Mageplus\Project\Model\Source\Project\Status</item>
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">select</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="component" xsi:type="string">Mageplus_Project/js/dynamic-rows/element/select-label</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="dataScope" xsi:type="string">status</item>
+                            <item name="label" xsi:type="string" translate="true">Status</item>
+                            <item name="sortOrder" xsi:type="string">50</item>
+                        </item>
+                    </argument>
+                </field>
+                <actionDelete>
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="additionalClasses" xsi:type="string">data-grid-actions-cell</item>
+                            <item name="componentType" xsi:type="string">actionDelete</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="label" xsi:type="string" translate="true">Action</item>
+                            <item name="sortOrder" xsi:type="number">99</item>
+                        </item>
+                    </argument>
+                </actionDelete>
+            </container>
+        </container>
+    </fieldset>
+    <fieldset name="product_link">
+        <settings>
+            <collapsible>true</collapsible>
+            <label translate="true">Project Product</label>
+            <opened>false</opened>
+        </settings>
+        <field name="addition_sku" sortOrder="20" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">addition_sku</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Addition SKU</label>
+                <dataScope>addition_sku</dataScope>
+            </settings>
+        </field>
+        <container name="button_set" template="ui/form/components/complex">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="formElement" xsi:type="string">container</item>
+                    <item name="componentType" xsi:type="string">container</item>
+                    <item name="label" xsi:type="string" />
+                </item>
+            </argument>
+            <container name="parent_buttons">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="boolean">false</item>
+                        <item name="formElement" xsi:type="string">container</item>
+                        <item name="componentType" xsi:type="string">container</item>
+                        <item name="component" xsi:type="string">Magento_Ui/js/form/components/button</item>
+                        <item name="title" xsi:type="string" translate="true">Add Product</item>
+                        <item name="actions" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="targetName" xsi:type="string">mageplus_project_form.mageplus_project_form.product_link.parent_modal</item>
+                                <item name="actionName" xsi:type="string">toggleModal</item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="targetName" xsi:type="string">mageplus_project_form.mageplus_project_form.product_link.parent_modal.parent_product_grid</item>
+                                <item name="actionName" xsi:type="string">render</item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </container>
+        </container>
+        <container name="parent_modal">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="componentType" xsi:type="string">modal</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/modal/modal-component</item>
+                    <item name="options" xsi:type="array">
+                        <item name="type" xsi:type="string">slide</item>
+                        <item name="title" xsi:type="string" translate="true">Choose Product</item>
+                        <item name="buttons" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Cancel</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="text" xsi:type="string" translate="true">Choose Product</item>
+                                <item name="class" xsi:type="string">action-primary</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="targetName" xsi:type="string">index = parent_product_grid</item>
+                                        <item name="actionName" xsi:type="string">save</item>
+                                    </item>
+                                    <item name="1" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+            <insertListing name="parent_product_grid">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <!--Avoid admin__scope-old cssclass assign -->
+                        <item name="cssclass" xsi:type="string">product-grid-insert-listing</item>
+                        <item name="dataScope" xsi:type="string">project_product_container</item>
+                        <item name="autoRender" xsi:type="boolean">false</item>
+                        <item name="selectionsProvider" xsi:type="string">mageplus_project_product_listing.mageplus_project_product_listing.product_listing_columns.ids</item>
+                        <item name="externalProvider" xsi:type="string">mageplus_project_product_listing.mageplus_project_product_listing_data_source</item>
+                        <item name="ns" xsi:type="string">mageplus_project_product_listing</item>
+                        <item name="realTimeLink" xsi:type="boolean">true</item>
+                        <item name="behaviourType" xsi:type="string">edit</item>
+                        <item name="dataLinks" xsi:type="array">
+                            <item name="imports" xsi:type="boolean">false</item>
+                            <item name="exports" xsi:type="boolean">true</item>
+                        </item>
+                        <item name="externalFilterMode" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+            </insertListing>
+        </container>
+        <container name="project_product_container">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="additionalClasses" xsi:type="string">admin__field-wide</item>
+                    <item name="componentType" xsi:type="string">dynamicRows</item>
+                    <item name="component" xsi:type="string">Mageplus_Project/js/dynamic-rows/dynamic-rows-grid</item>
+                    <item name="template" xsi:type="string">ui/dynamic-rows/templates/grid</item>
+                    <item name="recordTemplate" xsi:type="string">record</item>
+                    <item name="addButton" xsi:type="boolean">false</item>
+                    <item name="columnsHeader" xsi:type="boolean">false</item>
+                    <item name="columnsHeaderAfterRender" xsi:type="boolean">true</item>
+                    <item name="renderDefaultRecord" xsi:type="boolean">false</item>
+                    <item name="deleteButtonLabel" xsi:type="string" translate="true">Remove</item>
+                    <item name="dataScope" xsi:type="string">product_ids</item>
+                    <item name="identificationProperty" xsi:type="string">entity_id</item>
+                    <item name="identificationDRProperty" xsi:type="string">entity_id</item>
+                    <item name="dataProvider" xsi:type="string">data.project_product_container</item>
+                    <item name="positionProvider" xsi:type="string">position3</item>
+                    <item name="map" xsi:type="array">
+                        <item name="entity_id" xsi:type="string">entity_id</item>
+                        <item name="sku" xsi:type="string">sku</item>
+                        <item name="name" xsi:type="string">name</item>
+                    </item>
+                    <item name="links" xsi:type="array">
+                        <item name="insertData" xsi:type="string">${ $.provider }:${ $.dataProvider }</item>
+                    </item>
+                    <item name="dndConfig" xsi:type="array">
+                        <item name="enabled" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+            <container name="record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="component" xsi:type="string">Magento_Ui/js/dynamic-rows/record</item>
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="positionProvider" xsi:type="string">position3</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+                <field name="entity_id">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="dataScope" xsi:type="string">entity_id</item>
+                            <item name="label" xsi:type="string" translate="true">ID</item>
+                            <item name="sortOrder" xsi:type="number">10</item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="sku">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="dataScope" xsi:type="string">sku</item>
+                            <item name="label" xsi:type="string" translate="true">Sku</item>
+                            <item name="sortOrder" xsi:type="number">20</item>
+                        </item>
+                    </argument>
+                </field>
+                <field name="name">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="formElement" xsi:type="string">input</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="component" xsi:type="string">Magento_Ui/js/form/element/text</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="dataScope" xsi:type="string">name</item>
+                            <item name="label" xsi:type="string" translate="true">Name</item>
+                            <item name="sortOrder" xsi:type="number">30</item>
+                        </item>
+                    </argument>
+                </field>
+                <actionDelete>
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="additionalClasses" xsi:type="string">data-grid-actions-cell</item>
+                            <item name="componentType" xsi:type="string">actionDelete</item>
+                            <item name="elementTmpl" xsi:type="string">ui/dynamic-rows/cells/text</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="label" xsi:type="string" translate="true">Action</item>
+                            <item name="sortOrder" xsi:type="number">99</item>
+                        </item>
+                    </argument>
+                </actionDelete>
+            </container>
+        </container>
+    </fieldset>
+</form>

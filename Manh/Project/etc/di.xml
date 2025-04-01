@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Mageplus\Project\Api\Data\ProjectInterface" type="Mageplus\Project\Model\Project"/>
+    <preference for="Mageplus\Project\Api\Data\TagInterface" type="Mageplus\Project\Model\Tag"/>
+    <preference for="Mageplus\Project\Api\Data\ProductInterface" type="Mageplus\Project\Model\Product"/>
+    <preference for="Mageplus\Project\Api\Data\ProjectTagInterface" type="Mageplus\Project\Model\ProjectTag"/>
+    <preference for="Mageplus\Project\Api\Data\GalleryInterface" type="Mageplus\Project\Model\Gallery"/>
+    <preference for="Mageplus\Project\Api\ProjectRepositoryInterface"
+                type="Mageplus\Project\Model\Repository\ProjectRepository"/>
+    <preference for="Mageplus\Project\Api\TagRepositoryInterface"
+                type="Mageplus\Project\Model\Repository\TagRepository"/>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mageplus_project_listing_data_source"
+                      xsi:type="string">Mageplus\Project\Model\ResourceModel\Project\Grid\Collection
+                </item>
+            </argument>
+            <argument name="collections" xsi:type="array">
+                <item name="mageplus_tag_listing_data_source"
+                      xsi:type="string">Mageplus\Project\Model\ResourceModel\Tag\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Mageplus\Project\Model\ImageUploader" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="const">
+                \Mageplus\Project\Model\ImageProcessor::PROJECT_MEDIA_TMP_PATH
+            </argument>
+            <argument name="basePath" xsi:type="const">\Mageplus\Project\Model\ImageProcessor::PROJECT_MEDIA_PATH
+            </argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Mageplus\Project\Controller\Adminhtml\File\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Mageplus\Project\Model\ImageUploader</argument>
+        </arguments>
+    </type>
+    <type name="Mageplus\Project\Controller\Adminhtml\Import\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Mageplus\Project\Model\ImageUploader</argument>
+        </arguments>
+    </type>
+    <type name="Mageplus\Project\Model\ImageProcessor">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Mageplus\Project\Model\ImageUploader</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mageplus_upload_images_form_data_source" xsi:type="string">MageplusImagesUploadCollection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="MageplusImagesUploadCollection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">mageplus_tag</argument>
+            <argument name="resourceModel" xsi:type="string">Mageplus\Project\Model\ResourceModel\Tag</argument>
+        </arguments>
+    </virtualType>
+</config>

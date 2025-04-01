@@ -1,0 +1,128 @@
+<?php
+use Mageplus\Project\Block\Project as ProjectBlock;
+use Mageplus\Project\Model\Project;
+use Magento\Framework\Escaper;
+
+/** @var ProjectBlock $block */
+/** @var Project $project */
+/** @var Escaper $escaper */
+
+$projects = $block->getProjectCollection();
+?>
+<div class="project-wrapper">
+    <div class="toolbar toolbar-projects">
+        <div class="field limiter">
+            <label class="label" for="limiter">
+                <span><?= __('Show') ?></span>
+            </label>
+            <div class="control">
+                <select id="limiter" data-role="limiter" class="limiter-options">
+                    <?php foreach ($block->getAvailableLimit() as $_key => $_limit):?>
+                        <option value="<?= $_key ?>"
+                            <?php if ($block->isLimitCurrent($_key)):?>
+                                selected="selected"
+                            <?php endif ?>>
+                            <?= $block->escapeHtml($_limit) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <span class="limiter-text"><?= $block->escapeHtml(__('per page')) ?></span>
+        </div>
+        <div class="modes">
+            <?php $_modes = $block->getModes(); ?>
+            <?php if ($_modes && count($_modes) > 1) :?>
+                <strong class="modes-label" id="modes-label"><?= $block->escapeHtml(__('View as')) ?></strong>
+                <?php foreach ($block->getModes() as $_code => $_label) :?>
+                    <?php if ($block->isModeActive($_code)) :?>
+                        <strong title="<?= $block->escapeHtmlAttr($_label) ?>"
+                                class="modes-mode active mode-<?= $block->escapeHtmlAttr(strtolower($_code)) ?>"
+                                data-value="<?= $block->escapeHtmlAttr(strtolower($_code)) ?>">
+                            <span><?= $block->escapeHtml($_label) ?></span>
+                        </strong>
+                    <?php else :?>
+                        <a class="modes-mode mode-<?= $block->escapeHtmlAttr(strtolower($_code)) ?>"
+                           title="<?= $block->escapeHtmlAttr($_label) ?>"
+                           href="<?= $escaper->escapeHtml($block->getUrl($block->getUrlProjectPage(), ['project_list_mode' => $_code])); ?>"
+                           data-role="mode-switcher"
+                           data-value="<?= $block->escapeHtmlAttr(strtolower($_code)) ?>"
+                           id="mode-<?= $block->escapeHtmlAttr(strtolower($_code)) ?>"
+                           aria-labelledby="modes-label mode-<?= $block->escapeHtmlAttr(strtolower($_code)) ?>">
+                            <span><?= $block->escapeHtml($_label) ?></span>
+                        </a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <?php
+        $currentMode = $block->getCurrentMode();
+    ?>
+    <div class="project-list-wrapper <?= $currentMode ?>">
+        <?php foreach ($projects as $project): ?>
+            <div class="project-list-container">
+                <?php if ($baseImage = $block->getProjectImage($project)): ?>
+                    <div class="project-image">
+                        <?php if ($project->getRedirectUrl() != ''): ?>
+                            <a href="<?= $project->getRedirectUrl() ?>" target="_blank">
+                                <img src="<?= $escaper->escapeUrl($baseImage) ?>" width="100%" alt="<?= $block->escapeHtml($project->getProjectName()) ?>">
+                            </a>
+                        <?php else: ?>
+                            <img src="<?= $escaper->escapeUrl($baseImage) ?>" width="100%" alt="<?= $block->escapeHtml($project->getProjectName()) ?>">
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+                <div class="project-infor">
+                    <div class="project-title">
+                        <?= $block->escapeHtml($project->getProjectName()) ?>
+                    </div>
+                    <div class="project-address-information">
+                        <?php if ($project->getRedirectUrl() != ''): ?>
+                            <a href="<?= $project->getRedirectUrl() ?>" target="_blank">
+                                <?= $block->escapeHtml($block->getProjectAddressHtml($project)) ?>
+                            </a>
+                        <?php else: ?>
+                            <?= $block->escapeHtml($block->getProjectAddressHtml($project)) ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="project-product">
+                        <?php $additionSku = $project->getAdditionSku(); ?>
+                        <?php if(!empty($additionSku)): ?>
+                            <?php $additionSku = explode(',', $additionSku) ?>
+                            <?php foreach ($additionSku as $sku): ?>
+                                <div class="product-tag">
+                                    <a href="#">
+                                        <span><?= $block->escapeHtml($sku) ?></span>
+                                    </a>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                        <?php $products = $block->getProductsCollectionByProject($project); ?>
+                        <?php if(!empty($products)): ?>
+                            <?php foreach ($products as $product): ?>
+                                <div class="product-tag">
+                                    <a href="<?= $product->getProductUrl() ?>">
+                                        <span><?= $block->escapeHtml(!empty($product->getCustomAttribute('sku_label_for_projects')) ? $product->getCustomAttribute('sku_label_for_projects')->getValue() : $product->getSku()) ?></span>
+                                    </a>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="project-tag">
+                        <?php $tags = $block->getTagsCollectionByProject($project); ?>
+                        <?php if(!empty($tags)): ?>
+                            <?php foreach ($tags as $tag): ?>
+                                <span class="product-tag"><?= $block->escapeHtml($tag->getTagName()) ?></span>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <?php if ($pager = $block->getPagerHtml()): ?>
+        <div class="project-pager-container"><?= /** @escapeNotVerified */ $pager; ?></div>
+    <?php endif; ?>
+</div>

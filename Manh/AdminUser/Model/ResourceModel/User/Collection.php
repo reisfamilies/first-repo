@@ -30,4 +30,30 @@ class Collection extends \Magento\User\Model\ResourceModel\User\Collection
             ['bcc_email' => "emails"]
         );
     }
+
+    private function convertValues($booking)
+    {
+        $fileName = $booking->getQrCode();
+        $image = [];
+//        if ($this->getFileInfo()->isExist($fileName)) {
+//            $stat = $this->getFileInfo()->getStat($booking['qr_code']);
+//            $mime = $this->getFileInfo()->getMimeType($booking['qr_code']);
+        $image[0]['name'] = 'asd';
+        $image[0]['url'] = $booking['qr_code'];
+        $image[0]['size'] = 1560;
+//        }
+        $booking->setQrCode($image);
+
+        return $booking;
+    }
+
+    function getImageSizeInBytes($url) {
+        $headers = get_headers($url, 1);
+
+        if (isset($headers["Content-Length"])) {
+            return (int) $headers["Content-Length"]; // Return size in bytes
+        }
+
+        return false; // Failed to retrieve size
+    }
 }
