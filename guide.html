@@ -1,0 +1,45 @@
+protected function _prepareLayout()
+{
+$onclick = "submitCommentWithDynamicUrl()"; // Use a named JS function
+$button = $this->getLayout()->createBlock(
+\Magento\Backend\Block\Widget\Button::class
+)->setData(
+['label' => __('Submit Comment'), 'class' => 'action-save action-secondary', 'onclick' => $onclick]
+);
+$this->setChild('submit_button', $button);
+return parent::_prepareLayout();
+}
+
+vendor/magento/module-sales/view/adminhtml/templates/order/view/history.phtml
+<?php
+$statusUrls = [
+    'pending'    => $block->getUrl('yourmodule/controller/pending'),
+'processing' => $block->getUrl('yourmodule/controller/processing'),
+'complete'   => $block->getUrl('yourmodule/controller/complete'),
+];
+$statusUrlsJson = json_encode($statusUrls);
+$defaultUrl = $block->getSubmitUrl();
+
+$scriptString = <<<script
+    require(['prototype'], function(){
+var currentSubmitUrl = '{$block->escapeJs($defaultUrl)}';
+var statusUrlMap = {$statusUrlsJson};
+
+window.submitCommentWithDynamicUrl = function () {
+submitAndReloadArea($('order_history_block').parentNode, currentSubmitUrl);
+};
+
+if ($('history_status')) {
+$('history_status').observe('change', function(event) {
+var selectedStatus = event.target.value;
+if (statusUrlMap[selectedStatus]) {
+currentSubmitUrl = statusUrlMap[selectedStatus];
+} else {
+currentSubmitUrl = '{$block->escapeJs($defaultUrl)}';
+}
+});
+}
+});
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
